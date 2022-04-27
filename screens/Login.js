@@ -3,14 +3,23 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import Layout from "./Layout";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {AuthContext} from "../helpers/AuthContext";
+import {AuthContext, getValue, setValue, getV} from "../helpers/AuthContext";
 
 
 const Login = ({navigation}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const { setAuthState } = useContext(AuthContext);
+    const { authState, setAuthState } = useContext(AuthContext);
+/*
+    const setValue = async (item, token) => {
+        await AsyncStorage.setItem(item, token)
+    }
 
+    const getValue = async (item) => {
+        const value = await AsyncStorage.getItem(item)
+        return value;
+    }
+*/
 
     const login = async () => {
         const data = { username: username, password: password };
@@ -19,9 +28,16 @@ const Login = ({navigation}) => {
                 if(response.data.error) {
                     alert(response.data.error)
                 } else {
-                    AsyncStorage.setItem("accessToken", response.data.token)
+                    setValue("accessToken", response.data.token)
+                    /*getValue("accessToken").then((res) => {
+                        console.log(res)
+                    })*/
+                    getV("accessToken")
+                    setAuthState({username: response.data.username, id: response.data.id, rol: response.data.rol, status: true});
                     navigation.navigate("Home")
                 }
+            }).catch(e => {
+                console.log(e)
             })
     }
 

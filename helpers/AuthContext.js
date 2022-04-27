@@ -1,9 +1,27 @@
 import {createContext, useEffect, useState} from "react";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const AuthContext = createContext("");
+export const AuthContext = createContext("");
 
+export const setValue = async (item, token) => {
+    await AsyncStorage.setItem(item, token)
+}
+
+export const getValue = async (item) => {
+    const value = await AsyncStorage.getItem(item)
+    return value
+}
+
+export const getV = async (item) => {
+    const value = await AsyncStorage.getItem(item)
+    console.log(value)
+    return value;
+}
+
+/*
 const AuthProvider = ({children}) => {
+
 
     const [authState, setAuthState] = useState({
         username: "",
@@ -16,7 +34,7 @@ const AuthProvider = ({children}) => {
         axios
             .get("http://localhost:3001/users/auth", {
                 headers: {
-                    accessToken: localStorage.getItem("accessToken"),
+                    accessToken: AsyncStorage.getItem("accessToken"),
                 },
             })
             .then((response) => {
@@ -41,5 +59,4 @@ const AuthProvider = ({children}) => {
     );
 
 }
-
-export { AuthContext, AuthProvider };
+ */
