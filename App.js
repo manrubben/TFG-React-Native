@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, {useContext, useEffect, useState} from 'react'
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
@@ -6,14 +7,14 @@ import {Text, View, FlatList, TouchableOpacity} from "react-native";
 import GestionarPersonasDependientes from "./screens/GestionarPersonasDependientes";
 import Login from "./screens/Login"
 import Welcome from "./screens/Welcome";
-import Logged from "./screens/Logged";
-import NotLogged from "./screens/NotLogged";
 import {AuthContext} from "./helpers/AuthContext";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {getValue} from "./screens/Login"
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-const Stack = createNativeStackNavigator()
+const Drawer = createDrawerNavigator();
+
+//const Stack = createNativeStackNavigator();
 
 const App = () => {
 
@@ -51,11 +52,13 @@ const App = () => {
             });
     }, []);
 
-    const logeado = true;
-
     return (
         <AuthContext.Provider value={{ authState, setAuthState }}>
             <NavigationContainer>
+                <Drawer.Navigator>
+                    <Drawer.Screen name="Home" component={Home}/>
+                </Drawer.Navigator>
+                {/*
                 <Stack.Navigator>
                     {!authState.status ? (
                         <Stack.Screen
@@ -106,6 +109,7 @@ const App = () => {
                     />
                     <Stack.Screen name="GestionarPersonasDependientes" component={GestionarPersonasDependientes}/>
                 </Stack.Navigator>
+                */}
             </NavigationContainer>
         </AuthContext.Provider>
 
