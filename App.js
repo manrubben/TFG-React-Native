@@ -25,10 +25,11 @@ const App = () => {
     });
 
     useEffect( async () => {
+        const token = await AsyncStorage.getItem("accessToken")
          await axios
             .get("http://192.168.1.220:3001/users/auth", {
                 headers: {
-                    accessToken: ''
+                    accessToken: token
                 },
             })
             .then((response) => {
@@ -56,37 +57,40 @@ const App = () => {
         <AuthContext.Provider value={{ authState, setAuthState }}>
             <NavigationContainer>
                 <Stack.Navigator>
+                    {!authState.status ? (
+                        <Stack.Screen
+                            name="Welcome"
+                            component={Welcome}
+                            options={({navigation}) => ({
+                                headerStyle: {
+                                    backgroundColor: "#222f3e",
+                                },
+                                headerTitleStyle: {
+                                    color: "#ffffff",
+                                },
+                                headerRight: () => (
+                                    <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                                        <Text style={{color: '#ffffff', marginRight: 20, fontSize: 15}}>Login</Text>
+                                    </TouchableOpacity>
+                                )
+                            })}
+                        />
+                    ) : (
+                        <Stack.Screen
+                            name="Home"
+                            component={Home}
+                            options={({navigation}) => ({
+                                headerStyle: {
+                                    backgroundColor: "#222f3e",
+                                },
+                                headerTintColor: "#fff",
+                                headerTitleStyle: {
+                                    color: "#ffffff",
+                                },
+                            })}
+                        />
+                        )}
 
-                    <Stack.Screen
-                        name="Welcome"
-                        component={Welcome}
-                        options={({navigation}) => ({
-                            headerStyle: {
-                                backgroundColor: "#222f3e",
-                            },
-                            headerTitleStyle: {
-                                color: "#ffffff",
-                            },
-                            headerRight: () => (
-                                <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-                                    <Text style={{color: '#ffffff', marginRight: 20, fontSize: 15}}>Login</Text>
-                                </TouchableOpacity>
-                            )
-                        })}
-                    />
-                    <Stack.Screen
-                        name="Home"
-                        component={Home}
-                        options={({navigation}) => ({
-                            headerStyle: {
-                                backgroundColor: "#222f3e",
-                            },
-                            headerTintColor: "#fff",
-                            headerTitleStyle: {
-                                color: "#ffffff",
-                            },
-                        })}
-                    />
                     <Stack.Screen
                         name="Login"
                         component={Login}

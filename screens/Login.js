@@ -29,10 +29,6 @@ const Login = ({navigation}) => {
                     alert(response.data.error)
                 } else {
                     setValue("accessToken", response.data.token)
-                    /*getValue("accessToken").then((res) => {
-                        console.log(res)
-                    })*/
-                    getV("accessToken")
                     setAuthState({username: response.data.username, id: response.data.id, rol: response.data.rol, status: true});
                     navigation.navigate("Home")
                 }
