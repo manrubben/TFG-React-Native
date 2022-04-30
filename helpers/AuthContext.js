@@ -13,10 +13,12 @@ export const getValue = async (item) => {
     return value
 }
 
-export const getV = async (item) => {
-    const value = await AsyncStorage.getItem(item)
-    console.log(value)
-    return value;
+export const removeItem = async (item) => {
+    try {
+        await AsyncStorage.removeItem(item)
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 /*

@@ -11,6 +11,8 @@ import {AuthContext} from "./helpers/AuthContext";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import CustomDrawer from "./components/CustomDrawer";
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const Drawer = createDrawerNavigator();
 
@@ -43,8 +45,8 @@ const App = () => {
                         rol: response.data.rol,
                         status: true,
                     });
-                    console.log(response)
-                    console.log("A")
+                    //console.log(response)
+                    //console.log("A")
                 }
             })
             .catch(e => {
@@ -55,9 +57,51 @@ const App = () => {
     return (
         <AuthContext.Provider value={{ authState, setAuthState }}>
             <NavigationContainer>
-                <Drawer.Navigator>
-                    <Drawer.Screen name="Home" component={Home}/>
+                <Drawer.Navigator
+                    drawerContent={props => <CustomDrawer {...props} />}
+                    screenOptions={{drawerInactiveTintColor: '#333', drawerLabelStyle: {marginLeft: -25, fontSize: 15}}}>
+
+                    {!authState.status ? (
+                        <>
+                            <Drawer.Screen name="Welcome" component={Welcome} options={{
+                                drawerIcon: ({color}) => (
+                                    <Ionicons name="home-outline" size={22} color={color}/>
+                                )
+                            }}/>
+                            <Drawer.Screen name="Login" component={Login} options={{
+                                drawerIcon: ({color}) => (
+                                    <Ionicons name="ios-log-in-outline" size={22} color={color}/>
+                                )
+                            }}/>
+                        </>
+                    ) : (
+                        <>
+                            <Drawer.Screen name="Home" component={Home} options={{
+                                drawerIcon: ({color}) => (
+                                    <Ionicons name="home-outline" size={22} color={color}/>
+                                )
+                            }}/>
+                            <Drawer.Screen name="GestionarPersonasDependientes" component={GestionarPersonasDependientes} options={{
+                                drawerIcon: ({color}) => (
+                                    <Ionicons name="home-outline" size={22} color={color}/>
+                                )
+                            }}/>
+                        </>
+                    )}
                 </Drawer.Navigator>
+                    {/*
+                    <Drawer.Screen name="Home" component={Home} options={{
+                        drawerIcon: ({color}) => (
+                            <Ionicons name="home-outline" size={22} color={color}/>
+                        )
+                    }}/>
+                    <Drawer.Screen name="Login" component={Login} options={{
+                        drawerIcon: ({color}) => (
+                            <Ionicons name="ios-log-in-outline" size={22} color={color}/>
+                        )
+                    }}/>
+                </Drawer.Navigator>
+                */}
                 {/*
                 <Stack.Navigator>
                     {!authState.status ? (
