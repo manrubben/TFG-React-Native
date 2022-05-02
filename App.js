@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from "./components/CustomDrawer";
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import TabNavigator from "./components/TabNavigator";
 
 const Drawer = createDrawerNavigator();
 
@@ -76,7 +77,8 @@ const App = () => {
                         </>
                     ) : (
                         <>
-                            <Drawer.Screen name="Home" component={Home} options={{
+                            <Drawer.Screen name="Home" component={TabNavigator} options={{
+                                title: 'App',
                                 drawerIcon: ({color}) => (
                                     <Ionicons name="home-outline" size={22} color={color}/>
                                 )
