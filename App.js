@@ -14,10 +14,11 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from "./components/CustomDrawer";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import TabNavigator from "./components/TabNavigator";
+import CreatePersonaDependiente from "./screens/CreatePersonaDependiente";
 
 const Drawer = createDrawerNavigator();
 
-//const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const App = () => {
 

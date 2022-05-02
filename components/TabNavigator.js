@@ -5,26 +5,28 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import Feather from 'react-native-vector-icons/Feather'
 import GestionarPersonasDependientes from "../screens/GestionarPersonasDependientes";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Text, TouchableOpacity} from "react-native";
+import CreatePersonaDependiente from "../screens/CreatePersonaDependiente";
 
 const Tab = createBottomTabNavigator();
-/*
+
 const Stack = createNativeStackNavigator();
 
-const HomeStack = () => {
+const GestionarPersonasDependientesStack = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen
-                name="Home"
-                component={Home}
-            />
             <Stack.Screen
                 name="GestionarPersonasDependientes"
                 component={GestionarPersonasDependientes}
             />
+            <Stack.Screen
+                name="CreatePersonaDependiente"
+                component={CreatePersonaDependiente}
+            />
         </Stack.Navigator>
     );
 };
-*/
+
 
 const TabNavigator = () => {
     return(
@@ -32,12 +34,12 @@ const TabNavigator = () => {
             headerShown: false,
             tabBarStyle: {backgroundColor: 'white'}
         }}>
-            <Tab.Screen name="Home" component={Home} options={{
+            <Tab.Screen name="Home2" component={Home} options={{
                 tabBarIcon: ({color, size}) => (
                     <Ionicons name="home-outline" color={color} size={size} />
                 )
             }}/>
-            <Tab.Screen name="Pers. dependientes" component={GestionarPersonasDependientes} options={{
+            <Tab.Screen name="Pers. dependientes" component={GestionarPersonasDependientesStack} options={{
                 tabBarIcon: ({color, size}) => (
                     <Ionicons name="people" color={color} size={size} />
                 )

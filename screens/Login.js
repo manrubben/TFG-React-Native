@@ -39,12 +39,12 @@ const Login = ({navigation}) => {
 
     return(
         <Layout>
-            <Text style={{color: "#ffffff", fontSize: 15}}>Username:</Text>
+            <Text style={{color: "black", fontSize: 15}}>Username:</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={(text) => setUsername(text)}
             />
-            <Text style={{color: "#ffffff", fontSize: 15}}>Password:</Text>
+            <Text style={{color: "black", fontSize: 15}}>Password:</Text>
             <TextInput
                 style={styles.input}
                 secureTextEntry={true}
