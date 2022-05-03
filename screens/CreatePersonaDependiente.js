@@ -1,28 +1,40 @@
 
 import React, {useState} from 'react'
-import {View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView} from 'react-native'
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Button} from 'react-native'
 import Layout from "./Layout";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Formik } from 'formik';
+import * as Yup from "yup";
 
 const CreatePersonaDependiente = ({navigation}) => {
-    const [personaNombre, setPersonaNombre] = useState("");
-    const [personaApellidos, setPersonaApellidos] = useState("");
-    const [personaEnfermedad, setPersonaEnfermedad] = useState("");
-    const [personaGradoDeDependencia, setPersonaGradoDeDependencia] = useState("");
-    const [personaPastillasDia, setPersonaPastillasDia] = useState("");
-    const [personaPastillasTarde, setPersonaPastillasTarde] = useState("");
-    const [personaPastillasNoche, setPersonaPastillasNoche] = useState("");
 
-    const addPersonaDependiente = async () => {
+    const initialValues = {
+        nombre: "",
+        apellidos: "",
+        enfermedad: "",
+        gradoDeDependencia: "",
+        pastillasDia: "",
+        pastillasTarde: "",
+        pastillasNoche: ""
+    };
+
+    const validationSchema = Yup.object().shape({
+        nombre: Yup.string().required("Debes introducir un nombre"),
+        apellidos: Yup.string().required("Debes introducir los apellidos"),
+        enfermedad: Yup.string().required("Debes introducir la enfermedad"),
+    });
+
+    const addPersonaDependiente = async (values) => {
+
         const data = {
-            nombre: personaNombre,
-            apellidos: personaApellidos,
-            enfermedad: personaEnfermedad,
-            gradoDeDependencia: personaGradoDeDependencia,
-            pastillasDia: personaPastillasDia,
-            pastillasTarde: personaPastillasTarde,
-            pastillasNoche: personaPastillasNoche,
+            nombre: values.nombre,
+            apellidos: values.apellidos,
+            enfermedad: values.enfermedad,
+            gradoDeDependencia: values.gradoDeDependencia,
+            pastillasDia: values.pastillasDia,
+            pastillasTarde: values.pastillasTarde,
+            pastillasNoche: values.pastillasNoche,
         }
         const token = await AsyncStorage.getItem("accessToken")
         await axios.post("http://192.168.1.220:3001/personasDependientes/create", data,
@@ -40,53 +52,84 @@ const CreatePersonaDependiente = ({navigation}) => {
 
     return (
         <ScrollView>
-            <Layout>
-                <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Nombre:</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => setPersonaNombre(text)}>
-                </TextInput>
+            <Formik
+                initialValues={initialValues}
+                onSubmit={addPersonaDependiente}
+                validationSchema={validationSchema}
+            >
+                {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
+                    <Layout>
+                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Nombre:</Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={handleChange('nombre')}
+                            onBlur={handleBlur('nombre')}
+                            value={values.nombre}
+                            placeholder="(Ej. Juan...)">
+                        </TextInput>
+                        <Text style={{color: "red", fontSize: 15}}>{touched.nombre && errors.nombre}</Text>
 
-                <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Apellidos:</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => setPersonaApellidos(text)}>
-                </TextInput>
+                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Apellidos:</Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={handleChange('apellidos')}
+                            onBlur={handleBlur('apellidos')}
+                            value={values.apellidos}
+                            placeholder="(Ej. Rodríguez...)">
+                        </TextInput>
+                        <Text style={{color: "red", fontSize: 15}}>{touched.apellidos && errors.apellidos}</Text>
 
-                <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Enfermedad:</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => setPersonaEnfermedad(text)}>
-                </TextInput>
+                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Enfermedad:</Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={handleChange('enfermedad')}
+                            onBlur={handleBlur('enfermedad')}
+                            value={values.enfermedad}
+                            placeholder="(Ej. Parkinson...)">
+                        </TextInput>
+                        <Text style={{color: "red", fontSize: 15}}>{touched.enfermedad && errors.enfermedad}</Text>
 
-                <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Grado de dependencia:</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => setPersonaGradoDeDependencia(text)}>
-                </TextInput>
+                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Grado de dependencia:</Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={handleChange('gradoDeDependencia')}
+                            onBlur={handleBlur('gradoDeDependencia')}
+                            value={values.gradoDeDependencia}
+                            placeholder="(Ej. 32%...)">
+                        </TextInput>
 
-                <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Pastillas de dia:</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => setPersonaPastillasDia(text)}>
-                </TextInput>
+                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Pastillas de dia:</Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={handleChange('pastillasDia')}
+                            onBlur={handleBlur('pastillasDia')}
+                            value={values.pastillasDia}
+                            placeholder="(Ej. Aspirina...)">
+                        </TextInput>
 
-                <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Pastillas de tarde:</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => setPersonaPastillasTarde(text)}>
-                </TextInput>
+                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Pastillas de tarde:</Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={handleChange('pastillasTarde')}
+                            onBlur={handleBlur('pastillasTarde')}
+                            value={values.pastillasTarde}
+                            placeholder="(Ej. Ibuprofeno...)">
+                        </TextInput>
 
-                <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Pastillas de noche:</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => setPersonaPastillasNoche(text)}>
-                </TextInput>
-
-                <TouchableOpacity style={styles.button} onPress={addPersonaDependiente}>
-                    <Text>Guardar</Text>
-                </TouchableOpacity>
-            </Layout>
+                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Pastillas de noche:</Text>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={handleChange('pastillasNoche')}
+                            onBlur={handleBlur('pastillasNoche')}
+                            value={values.pastillasNoche}
+                            placeholder="(Ej. Dormidina...)">
+                        </TextInput>
+                        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                            <Text>Guardar</Text>
+                        </TouchableOpacity>
+                    </Layout>
+                )}
+            </Formik>
         </ScrollView>
     )
 }
