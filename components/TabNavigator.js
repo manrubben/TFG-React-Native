@@ -7,6 +7,8 @@ import GestionarPersonasDependientes from "../screens/GestionarPersonasDependien
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Text, TouchableOpacity} from "react-native";
 import CreatePersonaDependiente from "../screens/CreatePersonaDependiente";
+import ShowPersonaDependiente from "../screens/ShowPersonaDependiente";
+import EditPersonaDependiente from "../screens/EditPersonaDependiente";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +24,14 @@ const GestionarPersonasDependientesStack = () => {
             <Stack.Screen
                 name="CreatePersonaDependiente"
                 component={CreatePersonaDependiente}
+            />
+            <Stack.Screen
+                name="ShowPersonaDependiente"
+                component={ShowPersonaDependiente}
+            />
+            <Stack.Screen
+                name="EditPersonaDependiente"
+                component={EditPersonaDependiente}
             />
         </Stack.Navigator>
     );

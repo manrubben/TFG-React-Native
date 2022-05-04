@@ -1,10 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const PersonaDependiente = ({item}) => {
+    const navigation = useNavigation();
     return(
         <View style={styles.itemContainer}>
-            <Text style={styles.itemTitle}>{item.nombre + " " + item.apellidos}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("ShowPersonaDependiente", {id: item.id})}>
+                <Text style={styles.itemTitle}>{item.nombre + " " + item.apellidos}</Text>
+            </TouchableOpacity>
         </View>
     )
 }

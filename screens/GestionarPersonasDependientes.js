@@ -4,6 +4,7 @@ import axios from "axios";
 import PersonaDependiente from "../components/PersonaDependiente";
 import Layout from "./Layout";
 import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const GestionarPersonasDependientes = ({navigation}) => {
 
@@ -11,8 +12,9 @@ const GestionarPersonasDependientes = ({navigation}) => {
     const isFocused = useIsFocused();
 
     useEffect(async () => {
+        const token = await AsyncStorage.getItem("accessToken")
         await axios.get('http://192.168.1.220:3001/personasDependientes',
-            {headers: {accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvb3JkaW5hZG9yMSIsImlkIjozLCJyb2wiOiJDT09SRElOQURPUiIsImlhdCI6MTY1MDkwOTE4OX0.2MuSWCBvFivDmm92Z_FuySsQqzFzAdbA2E3I-KU-tc8"}})
+            {headers: {accessToken: token}})
             .then((response) => {
                 setLista(response.data)
             })
