@@ -1,34 +1,34 @@
 import React, {useEffect, useState} from 'react'
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
-import axios from "axios";
+import {useIsFocused} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import Layout from "./Layout";
-import { useIsFocused } from "@react-navigation/native";
 
-const ShowPersonaDependiente = ({navigation, route}) => {
+const ShowAuxiliar = ({navigation, route}) => {
 
-    const [personaDependiente, setPersonaDependiente] = useState({});
+    const [auxiliar, setAuxiliar] = useState({});
     const id = route.params.id
     const isFocused = useIsFocused();
 
     useEffect(async () => {
         const token = await AsyncStorage.getItem("accessToken")
-        await axios.get(`http://192.168.1.220:3001/personasDependientes/show/${id}`,
+        await axios.get(`http://192.168.1.220:3001/users/auxiliares/show/${id}`,
             {headers: {accessToken: token}})
             .then((response) => {
-                setPersonaDependiente(response.data);
+                setAuxiliar(response.data);
             }).catch((e) => console.log(e))
     }, [isFocused])
 
-    const deletePersonaDependiente = async () => {
+    const deleteAuxiliar = async () => {
         const token = await AsyncStorage.getItem("accessToken")
-        await axios.delete(`http://192.168.1.220:3001/personasDependientes/delete/${id}`,
+        await axios.delete(`http://192.168.1.220:3001/users/auxiliares/delete/${id}`,
             {headers: {accessToken: token}})
             .then((response) => {
                 if (response.data.error) {
                     console.log(response.data.error);
                 } else {
-                    navigation.navigate("GestionarPersonasDependientes")
+                    navigation.navigate("GestionarAuxiliares")
                 }
             }).catch((e) => console.log(e))
     }
@@ -36,22 +36,18 @@ const ShowPersonaDependiente = ({navigation, route}) => {
     return (
         <Layout>
             <View style={styles.container}>
-                <Text style={styles.itemTitle}>Nombre: {personaDependiente.nombre}</Text>
-                <Text style={styles.itemTitle}>Apellidos: {personaDependiente.apellidos}</Text>
-                <Text style={styles.itemTitle}>Enfermedad: {personaDependiente.enfermedad}</Text>
-                <Text style={styles.itemTitle}>Grado de dependencia: {personaDependiente.gradoDeDependencia}</Text>
-                <Text style={styles.itemTitle}>Pastillas de dia: {personaDependiente.pastillasDia}</Text>
-                <Text style={styles.itemTitle}>Pastillas de tarde: {personaDependiente.pastillasTarde}</Text>
-                <Text style={styles.itemTitle}>Pastillas de noche: {personaDependiente.pastillasNoche}</Text>
+                <Text style={styles.itemTitle}>Nombre: {auxiliar.nombre}</Text>
+                <Text style={styles.itemTitle}>Apellidos: {auxiliar.apellidos}</Text>
+                <Text style={styles.itemTitle}>Teléfono: {auxiliar.telefono}</Text>
+                <Text style={styles.itemTitle}>Username: {auxiliar.username}</Text>
             </View>
-            <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate("EditPersonaDependiente", {id: route.params.id})}>
+            <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate("EditAuxiliar", {id: route.params.id})}>
                 <Text style={styles.itemTitle}>Editar</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.deleteButton} onPress={deletePersonaDependiente}>
+            <TouchableOpacity style={styles.deleteButton} onPress={deleteAuxiliar}>
                 <Text style={styles.itemTitle}>Eliminar</Text>
             </TouchableOpacity>
         </Layout>
-
     )
 }
 
@@ -91,4 +87,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ShowPersonaDependiente;
+export default ShowAuxiliar;

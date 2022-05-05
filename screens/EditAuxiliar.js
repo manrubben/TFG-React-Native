@@ -1,55 +1,53 @@
 import React, {useEffect, useState} from 'react'
 import {View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet} from 'react-native'
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Formik } from 'formik';
+import axios from "axios";
 import * as Yup from "yup";
+import {Formik} from "formik";
 import Layout from "./Layout";
 
-const EditPersonaDependiente = ({navigation, route}) => {
+const EditAuxiliar = ({navigation, route}) => {
 
     const id = route.params.id
-    const [personaDependiente, setPersonaDependiente] = useState({});
+    const [auxiliar, setAuxiliar] = useState({});
 
     useEffect(async () => {
         const token = await AsyncStorage.getItem("accessToken")
-        await axios.get(`http://192.168.1.220:3001/personasDependientes/show/${id}`,
+        await axios.get(`http://192.168.1.220:3001/users/auxiliares/show/${id}`,
             {headers: {accessToken: token}})
             .then((response) => {
-                setPersonaDependiente(response.data);
+                setAuxiliar(response.data);
             }).catch((e) => console.log(e))
     }, [])
 
     const initialValues = {
-        nombre: personaDependiente.nombre,
-        apellidos: personaDependiente.apellidos,
-        enfermedad: personaDependiente.enfermedad,
-        gradoDeDependencia: personaDependiente.gradoDeDependencia,
-        pastillasDia: personaDependiente.pastillasDia,
-        pastillasTarde: personaDependiente.pastillasTarde,
-        pastillasNoche: personaDependiente.pastillasNoche
+        nombre: auxiliar.nombre,
+        apellidos: auxiliar.apellidos,
+        telefono: auxiliar.telefono,
+        rol: "AUXILIAR",
+        username: auxiliar.username,
     };
 
     const validationSchema = Yup.object().shape({
         nombre: Yup.string().required("Debes introducir un nombre"),
         apellidos: Yup.string().required("Debes introducir los apellidos"),
-        enfermedad: Yup.string().required("Debes introducir la enfermedad"),
+        telefono: Yup.string().required("Debes introducir un número de teléfono"),
+        username: Yup.string().required("Debes introducir un nombre de usuario")
+            .min(8, "El nombre de usuario debe tener al menos 8 caracteres")
+            .max(16, "El nombre de usuario debe tener como máximo 16 caracteres"),
     });
 
-    const editPersonaDependiente = async (values) => {
+    const editAuxiliar = async (values) => {
 
         const data = {
             nombre: values.nombre,
             apellidos: values.apellidos,
-            enfermedad: values.enfermedad,
-            gradoDeDependencia: values.gradoDeDependencia,
-            pastillasDia: values.pastillasDia,
-            pastillasTarde: values.pastillasTarde,
-            pastillasNoche: values.pastillasNoche,
+            telefono: values.telefono,
+            username: values.username,
         }
 
         const token = await AsyncStorage.getItem("accessToken")
-        await axios.put(`http://192.168.1.220:3001/personasDependientes/edit/${id}`, data,
+        await axios.put(`http://192.168.1.220:3001/users/auxiliares/edit/${id}`, data,
             {headers: {accessToken: token}})
             .then((response) => {
                 if(response.data.error) {
@@ -60,14 +58,13 @@ const EditPersonaDependiente = ({navigation, route}) => {
             }).catch((e) => console.log(e))
     }
 
-
     return (
         <ScrollView>
             <Formik
                 enableReinitialize={true}
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={editPersonaDependiente}
+                onSubmit={editAuxiliar}
             >
                 {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
                     <Layout>
@@ -91,51 +88,26 @@ const EditPersonaDependiente = ({navigation, route}) => {
                         </TextInput>
                         <Text style={{color: "red", fontSize: 15}}>{touched.apellidos && errors.apellidos}</Text>
 
-                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Enfermedad:</Text>
+                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Teléfono:</Text>
                         <TextInput
                             style={styles.input}
-                            onChangeText={handleChange('enfermedad')}
-                            onBlur={handleBlur('enfermedad')}
-                            value={values.enfermedad}
-                            placeholder="(Ej. Parkinson...)">
+                            onChangeText={handleChange('telefono')}
+                            onBlur={handleBlur('telefono')}
+                            value={values.telefono}
+                            placeholder="(Ej. 622172737...)">
                         </TextInput>
-                        <Text style={{color: "red", fontSize: 15}}>{touched.enfermedad && errors.enfermedad}</Text>
+                        <Text style={{color: "red", fontSize: 15}}>{touched.telefono && errors.telefono}</Text>
 
-                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Grado de dependencia:</Text>
+                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Username:</Text>
                         <TextInput
                             style={styles.input}
-                            onChangeText={handleChange('gradoDeDependencia')}
-                            onBlur={handleBlur('gradoDeDependencia')}
-                            value={values.gradoDeDependencia}
-                            placeholder="(Ej. 32%...)">
+                            onChangeText={handleChange('username')}
+                            onBlur={handleBlur('username')}
+                            value={values.username}
+                            placeholder="(Ej. javier97...)">
                         </TextInput>
+                        <Text style={{color: "red", fontSize: 15}}>{touched.username && errors.username}</Text>
 
-                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Pastillas de dia:</Text>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={handleChange('pastillasDia')}
-                            onBlur={handleBlur('pastillasDia')}
-                            value={values.pastillasDia}
-                            placeholder="(Ej. Aspirina...)">
-                        </TextInput>
-
-                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Pastillas de tarde:</Text>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={handleChange('pastillasTarde')}
-                            onBlur={handleBlur('pastillasTarde')}
-                            value={values.pastillasTarde}
-                            placeholder="(Ej. Ibuprofeno...)">
-                        </TextInput>
-
-                        <Text style={{color: "black", fontSize: 15, marginVertical: '3%'}}>Pastillas de noche:</Text>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={handleChange('pastillasNoche')}
-                            onBlur={handleBlur('pastillasNoche')}
-                            value={values.pastillasNoche}
-                            placeholder="(Ej. Dormidina...)">
-                        </TextInput>
                         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                             <Text>Guardar</Text>
                         </TouchableOpacity>
@@ -177,4 +149,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default EditPersonaDependiente;
+export default EditAuxiliar;

@@ -9,6 +9,10 @@ import {Text, TouchableOpacity} from "react-native";
 import CreatePersonaDependiente from "../screens/CreatePersonaDependiente";
 import ShowPersonaDependiente from "../screens/ShowPersonaDependiente";
 import EditPersonaDependiente from "../screens/EditPersonaDependiente";
+import GestionarAuxiliares from "../screens/GestionarAuxiliares";
+import CreateAuxiliar from "../screens/CreateAuxiliar";
+import ShowAuxiliar from "../screens/ShowAuxiliar";
+import EditAuxiliar from "../screens/EditAuxiliar";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,6 +41,29 @@ const GestionarPersonasDependientesStack = () => {
     );
 };
 
+const GestionarAuxiliaresStack = () => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen
+                name="GestionarAuxiliares"
+                component={GestionarAuxiliares}
+            />
+            <Stack.Screen
+                name="CreateAuxiliar"
+                component={CreateAuxiliar}
+            />
+            <Stack.Screen
+                name="ShowAuxiliar"
+                component={ShowAuxiliar}
+            />
+            <Stack.Screen
+                name="EditAuxiliar"
+                component={EditAuxiliar}
+            />
+        </Stack.Navigator>
+    )
+}
+
 
 const TabNavigator = () => {
     return(
@@ -50,6 +77,11 @@ const TabNavigator = () => {
                 )
             }}/>
             <Tab.Screen name="Pers. dependientes" component={GestionarPersonasDependientesStack} options={{
+                tabBarIcon: ({color, size}) => (
+                    <Ionicons name="people" color={color} size={size} />
+                )
+            }}/>
+            <Tab.Screen name="Auxiliares" component={GestionarAuxiliaresStack} options={{
                 tabBarIcon: ({color, size}) => (
                     <Ionicons name="people" color={color} size={size} />
                 )
