@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList} from 'react-native'
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Layout from "./Layout";
 import { useIsFocused } from "@react-navigation/native";
+import AuxiliaresAsignados from "./AuxiliaresAsignados";
 
 const ShowPersonaDependiente = ({navigation, route}) => {
 
@@ -34,23 +35,52 @@ const ShowPersonaDependiente = ({navigation, route}) => {
     }
 
     return (
-        <Layout>
-            <View style={styles.container}>
-                <Text style={styles.itemTitle}>Nombre: {personaDependiente.nombre}</Text>
-                <Text style={styles.itemTitle}>Apellidos: {personaDependiente.apellidos}</Text>
-                <Text style={styles.itemTitle}>Enfermedad: {personaDependiente.enfermedad}</Text>
-                <Text style={styles.itemTitle}>Grado de dependencia: {personaDependiente.gradoDeDependencia}</Text>
-                <Text style={styles.itemTitle}>Pastillas de dia: {personaDependiente.pastillasDia}</Text>
-                <Text style={styles.itemTitle}>Pastillas de tarde: {personaDependiente.pastillasTarde}</Text>
-                <Text style={styles.itemTitle}>Pastillas de noche: {personaDependiente.pastillasNoche}</Text>
-            </View>
-            <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate("EditPersonaDependiente", {id: route.params.id})}>
-                <Text style={styles.itemTitle}>Editar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.deleteButton} onPress={deletePersonaDependiente}>
-                <Text style={styles.itemTitle}>Eliminar</Text>
-            </TouchableOpacity>
-        </Layout>
+        <FlatList ListHeaderComponent={
+            <>
+                <Layout>
+                    <View style={styles.container}>
+                        <Text style={styles.itemTitle}>Nombre: {personaDependiente.nombre}</Text>
+                        <Text style={styles.itemTitle}>Apellidos: {personaDependiente.apellidos}</Text>
+                        <Text style={styles.itemTitle}>Enfermedad: {personaDependiente.enfermedad}</Text>
+                        <Text style={styles.itemTitle}>Grado de dependencia: {personaDependiente.gradoDeDependencia}</Text>
+                        <Text style={styles.itemTitle}>Pastillas de dia: {personaDependiente.pastillasDia}</Text>
+                        <Text style={styles.itemTitle}>Pastillas de tarde: {personaDependiente.pastillasTarde}</Text>
+                        <Text style={styles.itemTitle}>Pastillas de noche: {personaDependiente.pastillasNoche}</Text>
+                    </View>
+                    <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate("EditPersonaDependiente", {id: route.params.id})}>
+                        <Text style={styles.itemTitle}>Editar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.deleteButton} onPress={deletePersonaDependiente}>
+                        <Text style={styles.itemTitle}>Eliminar</Text>
+                    </TouchableOpacity>
+                </Layout>
+            </>
+        }
+                  ListFooterComponent={<AuxiliaresAsignados id={route.params.id}/>}
+        />
+        /*
+        <ScrollView>
+            <Layout>
+                <View style={styles.container}>
+                    <Text style={styles.itemTitle}>Nombre: {personaDependiente.nombre}</Text>
+                    <Text style={styles.itemTitle}>Apellidos: {personaDependiente.apellidos}</Text>
+                    <Text style={styles.itemTitle}>Enfermedad: {personaDependiente.enfermedad}</Text>
+                    <Text style={styles.itemTitle}>Grado de dependencia: {personaDependiente.gradoDeDependencia}</Text>
+                    <Text style={styles.itemTitle}>Pastillas de dia: {personaDependiente.pastillasDia}</Text>
+                    <Text style={styles.itemTitle}>Pastillas de tarde: {personaDependiente.pastillasTarde}</Text>
+                    <Text style={styles.itemTitle}>Pastillas de noche: {personaDependiente.pastillasNoche}</Text>
+                </View>
+                <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate("EditPersonaDependiente", {id: route.params.id})}>
+                    <Text style={styles.itemTitle}>Editar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.deleteButton} onPress={deletePersonaDependiente}>
+                    <Text style={styles.itemTitle}>Eliminar</Text>
+                </TouchableOpacity>
+
+                <AuxiliaresAsignados />
+            </Layout>
+        </ScrollView>
+    */
 
     )
 }

@@ -13,6 +13,7 @@ import GestionarAuxiliares from "../screens/GestionarAuxiliares";
 import CreateAuxiliar from "../screens/CreateAuxiliar";
 import ShowAuxiliar from "../screens/ShowAuxiliar";
 import EditAuxiliar from "../screens/EditAuxiliar";
+import AuxiliaresDisponibles from "../screens/AuxiliaresDisponibles";
 
 const Tab = createBottomTabNavigator();
 
@@ -36,6 +37,14 @@ const GestionarPersonasDependientesStack = () => {
             <Stack.Screen
                 name="EditPersonaDependiente"
                 component={EditPersonaDependiente}
+            />
+            <Stack.Screen
+                name="ShowAuxiliar"
+                component={ShowAuxiliar}
+            />
+            <Stack.Screen
+                name="AuxiliaresDisponibles"
+                component={AuxiliaresDisponibles}
             />
         </Stack.Navigator>
     );
