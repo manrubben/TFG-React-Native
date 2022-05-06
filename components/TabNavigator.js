@@ -14,6 +14,10 @@ import CreateAuxiliar from "../screens/CreateAuxiliar";
 import ShowAuxiliar from "../screens/ShowAuxiliar";
 import EditAuxiliar from "../screens/EditAuxiliar";
 import AuxiliaresDisponibles from "../screens/AuxiliaresDisponibles";
+import GestionarFamiliares from "../screens/GestionarFamiliares";
+import CreateFamiliar from "../screens/CreateFamiliar";
+import ShowFamiliar from "../screens/ShowFamiliar";
+import EditFamiliar from "../screens/EditFamiliar";
 
 const Tab = createBottomTabNavigator();
 
@@ -73,6 +77,28 @@ const GestionarAuxiliaresStack = () => {
     )
 }
 
+const GestionarFamiliaresStack = () => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen
+                name="GestionarFamiliares"
+                component={GestionarFamiliares}
+            />
+            <Stack.Screen
+                name="CreateFamiliar"
+                component={CreateFamiliar}
+            />
+            <Stack.Screen
+                name="ShowFamiliar"
+                component={ShowFamiliar}
+            />
+            <Stack.Screen
+                name="EditFamiliar"
+                component={EditFamiliar}
+            />
+        </Stack.Navigator>
+    )
+}
 
 const TabNavigator = () => {
     return(
@@ -91,6 +117,11 @@ const TabNavigator = () => {
                 )
             }}/>
             <Tab.Screen name="Auxiliares" component={GestionarAuxiliaresStack} options={{
+                tabBarIcon: ({color, size}) => (
+                    <Ionicons name="people" color={color} size={size} />
+                )
+            }}/>
+            <Tab.Screen name="Familiares" component={GestionarFamiliaresStack} options={{
                 tabBarIcon: ({color, size}) => (
                     <Ionicons name="people" color={color} size={size} />
                 )
