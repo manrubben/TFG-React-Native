@@ -50,6 +50,14 @@ const GestionarPersonasDependientesStack = () => {
                 name="AuxiliaresDisponibles"
                 component={AuxiliaresDisponibles}
             />
+            <Stack.Screen
+                name="CreateFamiliar"
+                component={CreateFamiliar}
+            />
+            <Stack.Screen
+                name="ShowFamiliar"
+                component={ShowFamiliar}
+            />
         </Stack.Navigator>
     );
 };

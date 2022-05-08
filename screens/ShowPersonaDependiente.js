@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Layout from "./Layout";
 import { useIsFocused } from "@react-navigation/native";
 import AuxiliaresAsignados from "./AuxiliaresAsignados";
+import FamiliaresAsignados from "./FamiliaresAsignados";
 
 const ShowPersonaDependiente = ({navigation, route}) => {
 
@@ -56,7 +57,13 @@ const ShowPersonaDependiente = ({navigation, route}) => {
                 </Layout>
             </>
         }
-                  ListFooterComponent={<AuxiliaresAsignados id={route.params.id}/>}
+                  ListFooterComponent={
+            <>
+                <AuxiliaresAsignados id={route.params.id}/>
+                <FamiliaresAsignados id={route.params.id}/>
+            </>
+
+        }
         />
         /*
         <ScrollView>

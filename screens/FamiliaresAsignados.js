@@ -1,49 +1,45 @@
 import React, {useEffect, useState} from 'react'
-import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native'
+import Layout from "./Layout";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Layout from "./Layout";
-import PersonaDependiente from "../components/PersonaDependiente";
-import Auxiliar from "../components/Auxiliar";
-import {Touchable} from "react-native-web";
-import AuxiliarAsignado from "../components/AuxiliarAsignado";
 
-const AuxiliaresAsignados = ({id}) => {
+const FamiliaresAsignados = ({id}) => {
 
     const navigation = useNavigation()
-    const [listOfAuxiliaresAsignados, setListOfAuxiliaresAsignados] = useState([]);
+    const [listOfFamiliaresAsignados, setListOfFamiliaresAsignados] = useState([])
     const isFocused = useIsFocused();
 
     useEffect(async () => {
         const token = await AsyncStorage.getItem("accessToken")
-        await axios.get(`http://192.168.1.220:3001/userPersonaDependiente/list/${id}`,
+        await axios.get(`http://192.168.1.220:3001/userPersonaDependiente/familiares/list/${id}`,
             {headers: {accessToken: token}})
             .then((response) => {
-                setListOfAuxiliaresAsignados(response.data)
+                setListOfFamiliaresAsignados(response.data)
             }).catch((e) => console.log(e))
+    }, [isFocused])
 
-    }, [isFocused]);
-
-    const deleteUserPersonaDependiente = async (auxiliarId, id) => {
+    const deleteUserPersonaDependiente = async (familiarId, id) => {
         const token = await AsyncStorage.getItem("accessToken")
         await axios.delete("http://192.168.1.220:3001/userPersonaDependiente/delete",
             {headers: {accessToken: token},
                 data: {
-                    userId: auxiliarId,
+                    userId: familiarId,
                     personaDependienteId: id
                 }})
             .then(() => {
-                setListOfAuxiliaresAsignados(
-                    listOfAuxiliaresAsignados.filter((auxiliar) => {
-                        return auxiliar.id != auxiliarId;
+                setListOfFamiliaresAsignados(
+                    listOfFamiliaresAsignados.filter((familiar) => {
+                        return familiar.id != familiarId;
                     })
                 )
             }).catch((e) => console.log(e))
     }
+
     const renderItem = ({item}) => {
         return <View style={styles.global}>
-            <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate("ShowAuxiliar", {id: item.id})}>
+            <TouchableOpacity style={styles.itemContainer} onPress={() => navigation.navigate("ShowFamiliar", {id: item.id})}>
                 <Text style={styles.itemTitle}>{item.nombre + " " + item.apellidos}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.deleteButton} onPress={() => deleteUserPersonaDependiente(item.id, id)}>
@@ -54,17 +50,17 @@ const AuxiliaresAsignados = ({id}) => {
 
     return (
         <Layout>
-            <Text>Auxiliares asignados</Text>
-            <TouchableOpacity style={styles.asignarAuxiliarButton} onPress={() => navigation.navigate("AuxiliaresDisponibles", {id: id})}>
-                <Text style={styles.itemTitle}>Asignar auxiliar</Text>
+            <Text>Familiares asignados</Text>
+            <TouchableOpacity style={styles.asignarFamiliarButton} onPress={() => navigation.navigate("CreateFamiliar", {id: id})}>
+                <Text style={styles.itemTitle}>Asignar familiar</Text>
             </TouchableOpacity>
             <FlatList
-                listKey="auxiliares-asignados"
+                listKey="familiares-asignados"
                 style={{
                     width: '90%',
                     marginVertical: '5%',
                 }}
-                data={listOfAuxiliaresAsignados}
+                data={listOfFamiliaresAsignados}
                 renderItem={renderItem}/>
         </Layout>
     )
@@ -89,7 +85,7 @@ const styles = StyleSheet.create({
     itemTitle: {
         color: "#ffffff",
     },
-    asignarAuxiliarButton: {
+    asignarFamiliarButton: {
         width: '90%',
         marginVertical: '5%',
         alignItems: 'center',
@@ -111,4 +107,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default AuxiliaresAsignados;
+export default FamiliaresAsignados;

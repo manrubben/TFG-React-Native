@@ -7,8 +7,9 @@ import {useNavigation} from "@react-navigation/native";
 import {Formik} from "formik";
 import Layout from "./Layout";
 
-const CreateFamiliar = () => {
+const CreateFamiliar = ({route}) => {
 
+    const id = route.params.id
     const navigation = useNavigation();
     const initialValues = {
         nombre: "",
@@ -47,12 +48,20 @@ const CreateFamiliar = () => {
             .then((response) => {
                 if(response.data.error) {
                     console.log(response.data.error)
-                } else {
-                    navigation.navigate("GestionarFamiliares")
                 }
             }).catch(e => {
                 console.log(e)
             })
+
+        await axios.post(`http://192.168.1.220:3001/userPersonaDependiente/personaDependiente/${id}/addFamiliar`, data,
+            {headers: {accessToken: token}})
+            .then((response) => {
+                if(response.data.error) {
+                    console.log(response.data.error);
+                } else {
+                    navigation.goBack()
+                }
+            }).catch((e) => console.log(e))
     }
 
     return (
