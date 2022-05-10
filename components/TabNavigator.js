@@ -25,28 +25,42 @@ const Stack = createNativeStackNavigator();
 
 const GestionarPersonasDependientesStack = () => {
     return (
-        <Stack.Navigator>
-            <Stack.Screen
+        <Stack.Navigator screenOptions={{
+            headerTitleAlign: "center"
+        }}>
+            <Stack.Screen options={{
+                title: "Personas dependientes",
+            }}
                 name="GestionarPersonasDependientes"
                 component={GestionarPersonasDependientes}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Añadir persona dependiente",
+            }}
                 name="CreatePersonaDependiente"
                 component={CreatePersonaDependiente}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Detalles de la persona dependiente",
+            }}
                 name="ShowPersonaDependiente"
                 component={ShowPersonaDependiente}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Editar datos de la persona dependiente",
+            }}
                 name="EditPersonaDependiente"
                 component={EditPersonaDependiente}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Detalles del auxiliar",
+            }}
                 name="ShowAuxiliar"
                 component={ShowAuxiliar}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Auxiliares disponibles",
+            }}
                 name="AuxiliaresDisponibles"
                 component={AuxiliaresDisponibles}
             />
@@ -64,20 +78,30 @@ const GestionarPersonasDependientesStack = () => {
 
 const GestionarAuxiliaresStack = () => {
     return(
-        <Stack.Navigator>
-            <Stack.Screen
+        <Stack.Navigator screenOptions={{
+            headerTitleAlign: "center"
+        }}>
+            <Stack.Screen options={{
+                title: "Auxiliares",
+            }}
                 name="GestionarAuxiliares"
                 component={GestionarAuxiliares}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Añadir auxiliar",
+            }}
                 name="CreateAuxiliar"
                 component={CreateAuxiliar}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Detalles del auxiliar",
+            }}
                 name="ShowAuxiliar"
                 component={ShowAuxiliar}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Editar datos del auxiliar",
+            }}
                 name="EditAuxiliar"
                 component={EditAuxiliar}
             />
@@ -87,20 +111,30 @@ const GestionarAuxiliaresStack = () => {
 
 const GestionarFamiliaresStack = () => {
     return(
-        <Stack.Navigator>
-            <Stack.Screen
+        <Stack.Navigator screenOptions={{
+            headerTitleAlign: "center"
+        }}>
+            <Stack.Screen options={{
+                title: "Familiares",
+            }}
                 name="GestionarFamiliares"
                 component={GestionarFamiliares}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Añadir familiar",
+            }}
                 name="CreateFamiliar"
                 component={CreateFamiliar}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Detalles del familiar",
+            }}
                 name="ShowFamiliar"
                 component={ShowFamiliar}
             />
-            <Stack.Screen
+            <Stack.Screen options={{
+                title: "Editar datos del familiar",
+            }}
                 name="EditFamiliar"
                 component={EditFamiliar}
             />
@@ -115,6 +149,7 @@ const TabNavigator = () => {
             tabBarStyle: {backgroundColor: 'white'}
         }}>
             <Tab.Screen name="Home2" component={Home} options={{
+                title: "Home",
                 tabBarIcon: ({color, size}) => (
                     <Ionicons name="home-outline" color={color} size={size} />
                 )

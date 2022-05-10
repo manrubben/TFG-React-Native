@@ -111,7 +111,7 @@ const EditFamiliar = ({route}) => {
                         <Text style={{color: "red", fontSize: 15}}>{touched.username && errors.username}</Text>
 
                         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                            <Text>Guardar</Text>
+                            <Text style={styles.buttonText}>Guardar</Text>
                         </TouchableOpacity>
                     </Layout>
                 )}
