@@ -27,9 +27,6 @@ const GestionarFamiliares = () => {
 
     return (
         <Layout>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("CreateFamiliar")}>
-                <Text style={styles.text}>Añadir</Text>
-            </TouchableOpacity>
             <FlatList style={{
                 width: '90%',
                 marginVertical: '5%'
